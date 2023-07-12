@@ -1,0 +1,53 @@
+/* ==UserStyle==
+@name         Cohost - Sticky & Compact Sidebar Nav Menu
+@author       ZiRC (https://github.com/zlrc)
+@version      1.0.0
+@namespace    net.thebunny
+@license      unlicense
+==/UserStyle== */
+
+@-moz-document domain("cohost.org") {
+
+@media (min-width: 1024px) {
+    /* Sticky sidebar */
+    ul[id^="headlessui-menu-items-"] {
+        position: sticky;
+        top: 5rem;
+        margin-bottom: 8rem;
+
+        /* 
+         * Scrollbar for bookmarked tags, inspired by @binarycat: 
+         * https://cohost.org/binarycat/post/1742015-this-is-cool-i-adde 
+         */
+        overflow-x: hidden;
+        overflow-y: scroll;
+        max-height: 80vh;
+    }
+
+
+    /* Compact sidebar by @twilight-sparkle: https://cohost.org/twilight-sparkle/post/1506148-smol-sidebar */
+    @media (max-height: 860px) {
+        ul[id^="headlessui-menu-items-"] li { 
+            padding: 3px !important; 
+        }
+
+        ul[id^="headlessui-menu-items-"] li:hover {
+            border-color: transparent !important; 
+            background: rgba(255,136,0, 0.2) !important;
+        }
+
+        /* Round the corners of tags list items. */
+        ul[id^="headlessui-menu-items-"] > ul > li {
+            border-radius: 0.5rem;
+            min-width: 100%;
+            width: fit-content;
+        }
+
+        /* Make the a tag a block element so it spans the whole length of its parent. */
+        ul[id^="headlessui-menu-items-"] > ul > li a {
+            display: block;
+        }
+    }
+}
+
+}
