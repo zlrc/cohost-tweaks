@@ -1,0 +1,21 @@
+/* ==UserStyle==
+@name         Cohost - Full-Width Feed Selector
+@author       ZiRC (https://github.com/zlrc)
+@version      1.0.0
+@namespace    net.thebunny
+@license      unlicense
+==/UserStyle== */
+
+@-moz-document url("cohost.org") {
+/* Feed Selector */
+ul.w-full {
+    width: 100%;
+    margin-left: 0.6rem;
+}
+
+/* Width adjustment to the "New Posts" notification so it lines up */
+button.cohost-shadow-light {
+    margin-left: 5.5rem;
+    width: calc(100% - 5.5rem);   
+}
+}
