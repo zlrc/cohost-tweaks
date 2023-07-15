@@ -1,0 +1,15 @@
+/* ==UserStyle==
+@name         Cohost - Sticky Feed Avatars
+@description  Pins user avatars to the top of the screen as you scroll, much like how it's done on Tumblr.
+@author       ZiRC (https://github.com/zlrc)
+@version      1.0.0
+@namespace    net.thebunny
+@license      unlicense
+==/UserStyle== */
+
+@-moz-document domain("cohost.org") {
+[data-view="post-preview"] > .mask {
+    position: sticky;
+    top: 5rem;
+}
+}
