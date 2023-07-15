@@ -1,9 +1,9 @@
 /* ==UserStyle==
 @name         Cohost - Sticky & Compact Sidebar Nav Menu
 @author       ZiRC (https://github.com/zlrc)
-@version      1.0.0
+@version      1.0.1
 @namespace    net.thebunny
-@license      unlicense
+@license      CC-BY-SA-4.0
 ==/UserStyle== */
 
 @-moz-document domain("cohost.org") {
@@ -43,7 +43,7 @@
             width: fit-content;
         }
 
-        /* Make the a tag a block element so it spans the whole length of its parent. */
+        /* Make the <a> tag a block element so it spans the whole length of its parent. */
         ul[id^="headlessui-menu-items-"] > ul > li a {
             display: block;
         }
