@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Unnested Comments for Cohost
 // @namespace    https://zirc.thebunny.net
-// @version      0.1
+// @version      0.1.1
 // @description  Chains comments after one level of nesting to improve readability.
 // @author       ZiRC
 // @match        https://cohost.org/*/post/*
@@ -36,6 +36,7 @@ function styleComment(comment, lastInChain, parentData = null) {
         // Add a line to the left side
         const line = document.createElement("div");
         const wrapper = document.createElement("div");
+        const avatarMobile = comment.querySelector("div > div > div > div > div.mask");
         let avatar = comment.querySelector("div > div > a");
         if (!avatar) {
             avatar = comment.querySelector("div > div"); // for deleted / hidden comments
@@ -43,6 +44,9 @@ function styleComment(comment, lastInChain, parentData = null) {
         line.classList.add("uc-vertical-line");
         wrapper.classList.add("uc-vertical-line__wrapper");
         avatar.parentElement.insertBefore(wrapper, avatar);
+        if (avatarMobile) {
+            wrapper.appendChild(avatarMobile);
+        }
         wrapper.appendChild(avatar);
         wrapper.appendChild(line);
     }
@@ -98,7 +102,6 @@ function formatReplies(container, parentData = null, ancestorIsLastReply = true)
 }
 
 function update() {
-    console.log("update");
     document.querySelectorAll(".my-3 > div > div > article[data-comment-id]").forEach(topLevelComment => {
             const repliesContainer = topLevelComment.nextElementSibling;
             if (repliesContainer) {
@@ -115,7 +118,6 @@ function update() {
     'use strict';
 
     const observer = new MutationObserver(_mutations => {
-        console.log("mutation observed");
         update()
     });
 
