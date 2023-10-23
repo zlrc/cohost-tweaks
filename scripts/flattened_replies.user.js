@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         Unnested Comments for Cohost
+// @name         Flattened Replies for Cohost
 // @namespace    https://zirc.thebunny.net
 // @copyright    Licensed under CC BY 4.0. To view a copy of this license, visit http://creativecommons.org/licenses/by/4.0/
 // @version      1.0
@@ -10,7 +10,7 @@
 
 // HOW TO INSTALL (Desktop & Mobile):
 // 1. Install a userscript manager on your preferred web browser (such as Tampermonkey: https://www.tampermonkey.net/).
-// 2. Visit https://github.com/zlrc/cohost-tweaks/blob/main/scripts/unnested_comments.user.js
+// 2. Visit https://github.com/zlrc/cohost-tweaks/blob/main/scripts/flattened_replies.user.js
 //    and click "Raw" at the top right of the code box.
 // 3. In Tampermonkey, you can manually check for updates to this script by going to:
 //    "Installed Userscripts" > "Edit" (pencil and paper icon) > "File" > "Check for updates"
@@ -21,19 +21,19 @@ const REPLY_DEPTH_LIMIT = 7; // default: 7
 
 const style = document.createElement("style");
 style.innerText = `
-    .uc-reply-quote {
+    .fr-reply-quote {
         text-overflow: ellipsis;
         overflow-x: clip;
         white-space: nowrap;
         padding-left: 1em;
         border-left-width: 0.25rem;
     }
-    .uc-vertical-line__wrapper {
+    .fr-vertical-line__wrapper {
         display: flex;
         flex-direction: column;
         gap: 1rem;
     }
-    .uc-vertical-line {
+    .fr-vertical-line {
         background: rgb(160 156 152 / var(--tw-border-opacity));
         width: 1px;
         height: 100%;
@@ -41,30 +41,30 @@ style.innerText = `
         margin-right: auto;
     }
 
-    .uc-collapse-summary {
+    .fr-collapse-summary {
         list-style-type: '';
         width: fit-content;
     }
-    .uc-collapse-summary:hover::after {
+    .fr-collapse-summary:hover::after {
         text-decoration-line: underline;
     }
-    .uc-collapse-icon {
+    .fr-collapse-icon {
         text-align: center;
         font-size: 1.15rem;
     }
 
-    details > .uc-collapse-summary::after {
+    details > .fr-collapse-summary::after {
         content: 'show more replies';
         margin-bottom: 0.75rem
     }
-    details[open] > .uc-collapse-summary::after {
+    details[open] > .fr-collapse-summary::after {
         content: 'show less replies';
         margin-bottom: 0rem;
     }
-    details .uc-collapse-icon::after {
+    details .fr-collapse-icon::after {
         content: '⊕'
     }
-    details[open] .uc-collapse-icon::after {
+    details[open] .fr-collapse-icon::after {
         content: '⊝'
     }
 `;
@@ -88,8 +88,8 @@ function styleComment(comment, lastInChain, parentData = null, depth = -1) {
             avatar = comment.querySelector("div > div"); // for deleted / hidden comments
         }
 
-        line.classList.add("uc-vertical-line");
-        wrapper.classList.add("uc-vertical-line__wrapper");
+        line.classList.add("fr-vertical-line");
+        wrapper.classList.add("fr-vertical-line__wrapper");
         avatar.parentElement.insertBefore(wrapper, avatar); // place wrapper above the avatar
 
         const avatarMobile = comment.querySelector("div > div > div > div > div.mask");
@@ -111,7 +111,7 @@ function styleComment(comment, lastInChain, parentData = null, depth = -1) {
         if (truncatedHandle.length > 20) {
             truncatedHandle = truncatedHandle.substring(0, 17) + "...";
         }
-        quote.classList.add("uc-reply-quote");
+        quote.classList.add("fr-reply-quote");
         quote.innerHTML = `
             <span class="text-gray-500">
                 <a class="hover:underline" href="https://cohost.org/${parentData.handle}"><b>@${truncatedHandle}</b></a>: <a class="hover:underline" href="#comment-${parentData.id}">${parentData.text}</a>
@@ -126,7 +126,7 @@ function styleComment(comment, lastInChain, parentData = null, depth = -1) {
         if (!replyButton) return;
         replyButton.classList.remove("cursor-pointer", "hover:underline", "text-cherry");
         replyButton.classList.add("text-gray-400", "cursor-not-allowed");
-        replyButton.setAttribute("title", "Disabled by 'Unnested Comments for Cohost': this comment is nested too far, those who don't have this userscript might not see your reply!");
+        replyButton.setAttribute("title", "Disabled by 'Flattened Replies for Cohost': this comment is nested too far, those who don't have this userscript might not see your reply!");
         replyButton.setAttribute("disabled", "true");
         replyButton.lastChild.textContent = "can't reply further";
     }
@@ -175,8 +175,8 @@ function formatReplies(container, parentData = null, ancestorIsLastReply = true,
                 const collapseContainer = document.createElement("details");
                 collapseContainer.style.display = "contents";
                 collapseContainer.innerHTML = `
-                    <summary class="uc-collapse-summary cursor-pointer flex flex-row text-sm font-bold text-gray-500"><div class="uc-collapse-icon w-8 lg:w-16"></div></summary>
-                    <div class="uc-vertical-line-wrapper h-3 w-8 lg:w-16"><div class="uc-vertical-line"></div></div>
+                    <summary class="fr-collapse-summary cursor-pointer flex flex-row text-sm font-bold text-gray-500"><div class="fr-collapse-icon w-8 lg:w-16"></div></summary>
+                    <div class="fr-vertical-line-wrapper h-3 w-8 lg:w-16"><div class="fr-vertical-line"></div></div>
                 `;
                 nestedReplies.forEach(reply => collapseContainer.appendChild(reply));
                 nestedReplies = [collapseContainer];
