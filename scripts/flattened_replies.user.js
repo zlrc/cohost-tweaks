@@ -2,7 +2,7 @@
 // @name         Flattened Replies for Cohost
 // @namespace    https://zirc.thebunny.net
 // @copyright    Licensed under CC BY 4.0. To view a copy of this license, visit http://creativecommons.org/licenses/by/4.0/
-// @version      1.0
+// @version      1.1
 // @description  Chains and collapses comments after one level of nesting to improve readability.
 // @author       ZiRC (https://github.com/zlrc)
 // @match        https://cohost.org/*/post/*
@@ -66,6 +66,12 @@ style.innerText = `
     }
     details[open] .fr-collapse-icon::after {
         content: '⊝'
+    }
+
+    @media (min-width: 1024px) {
+        .lg\\:w-12 {
+            width: 3rem;
+        }
     }
 `;
 document.head.appendChild(style);
@@ -175,8 +181,8 @@ function formatReplies(container, parentData = null, ancestorIsLastReply = true,
                 const collapseContainer = document.createElement("details");
                 collapseContainer.style.display = "contents";
                 collapseContainer.innerHTML = `
-                    <summary class="fr-collapse-summary cursor-pointer flex flex-row text-sm font-bold text-gray-500"><div class="fr-collapse-icon w-8 lg:w-16"></div></summary>
-                    <div class="fr-vertical-line-wrapper h-3 w-8 lg:w-16"><div class="fr-vertical-line"></div></div>
+                    <summary class="fr-collapse-summary cursor-pointer flex flex-row text-sm font-bold text-gray-500"><div class="fr-collapse-icon w-8 lg:w-12"></div></summary>
+                    <div class="fr-vertical-line-wrapper h-3 w-8 lg:w-12"><div class="fr-vertical-line"></div></div>
                 `;
                 nestedReplies.forEach(reply => collapseContainer.appendChild(reply));
                 nestedReplies = [collapseContainer];
